@@ -2,7 +2,11 @@
 """
 Created on Wed Apr 18 21:27:16 2018
 
-@author: Alisa
+@author: Ebome
+
+Assume s is a string of lower case characters.
+
+Write a program that prints the number of times the string 'bob' occurs in s.
 """
 
 s = 'oboboboboboboboobobooojoboobobo'
