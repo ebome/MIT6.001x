@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Apr 18 21:27:16 2018
-
-@author: Ebome
-
-"""
 s='cgprgkqnwfjbpruuviskwps' # cgprw
 substr='' # initialize an empty string
 length = len(s)
