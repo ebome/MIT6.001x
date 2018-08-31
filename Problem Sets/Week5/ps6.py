@@ -102,7 +102,7 @@ class Message(object):
         Returns: a dictionary mapping a letter (string) to 
                  another letter (string). 
         '''
-        pass #delete this line and replace with your code here
+        pass
 
     def apply_shift(self, shift):
         '''
@@ -116,7 +116,7 @@ class Message(object):
         Returns: the message text (string) in which every character is shifted
              down the alphabet by the input shift
         '''
-        pass #delete this line and replace with your code here
+        pass
 
 class PlaintextMessage(Message):
     def __init__(self, text, shift):
@@ -136,7 +136,11 @@ class PlaintextMessage(Message):
         Hint: consider using the parent class constructor so less 
         code is repeated
         '''
-        pass #delete this line and replace with your code here
+        self.shift = shift
+        self.message_text = text
+        self.valid_words = load_words(WORDLIST_FILENAME)
+        self.encrypting_dict = super(PlaintextMessage, self).build_shift_dict(shift)
+        self.message_text_encrypted = super(PlaintextMessage, self).apply_shift(shift)
 
     def get_shift(self):
         '''
@@ -144,7 +148,7 @@ class PlaintextMessage(Message):
         
         Returns: self.shift
         '''
-        pass #delete this line and replace with your code here
+        return self.shift
 
     def get_encrypting_dict(self):
         '''
@@ -152,7 +156,8 @@ class PlaintextMessage(Message):
         
         Returns: a COPY of self.encrypting_dict
         '''
-        pass #delete this line and replace with your code here
+        encrypting_dict_copy = self.encrypting_dict.copy()
+        return encrypting_dict_copy
 
     def get_message_text_encrypted(self):
         '''
@@ -160,7 +165,7 @@ class PlaintextMessage(Message):
         
         Returns: self.message_text_encrypted
         '''
-        pass #delete this line and replace with your code here
+        return self.message_text_encrypted 
 
     def change_shift(self, shift):
         '''
@@ -173,8 +178,9 @@ class PlaintextMessage(Message):
 
         Returns: nothing
         '''
-        pass #delete this line and replace with your code here
-
+        self.shift = shift
+        self.encrypting_dict = super(PlaintextMessage, self).build_shift_dict(shift)
+        self.message_text_encrypted = super(PlaintextMessage, self).apply_shift(shift)
 
 class CiphertextMessage(Message):
     def __init__(self, text):
@@ -187,7 +193,9 @@ class CiphertextMessage(Message):
             self.message_text (string, determined by input text)
             self.valid_words (list, determined using helper function load_words)
         '''
-        pass #delete this line and replace with your code here
+        self.message_text = text
+        self.valid_words = load_words(WORDLIST_FILENAME)
+
 
     def decrypt_message(self):
         '''
@@ -205,7 +213,18 @@ class CiphertextMessage(Message):
         Returns: a tuple of the best shift value used to decrypt the message
         and the decrypted message text using that shift value
         '''
-        pass #delete this line and replace with your code here
+        word_counter = 0
+        max_count = 0
+        for i in range(26):
+            for j in list(super(CiphertextMessage, self).apply_shift(i).split(' ')):
+                if is_word(self.valid_words, j):
+                    word_counter += 1
+                if word_counter > max_count:
+                    max_count = word_counter
+                    shift_value = i
+                    decrypted_msg = super(CiphertextMessage, self).apply_shift(i)
+                        
+        return (shift_value, decrypted_msg)
 
 #Example test case (PlaintextMessage)
 plaintext = PlaintextMessage('hello', 2)
@@ -216,3 +235,7 @@ print('Actual Output:', plaintext.get_message_text_encrypted())
 ciphertext = CiphertextMessage('jgnnq')
 print('Expected Output:', (24, 'hello'))
 print('Actual Output:', ciphertext.decrypt_message())
+
+def decrypt_story():
+    joke_code = CiphertextMessage(get_story_string())
+    return joke_code.decrypt_message()
