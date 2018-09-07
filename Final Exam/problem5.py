@@ -27,8 +27,7 @@ def uniqueValues(aDict):
     returns: a sorted list of keys that map to unique aDict values, empty list if none
     '''
 
-    # This removes all the dictionary values that are the same. 
-    # Stores the remaining keys and values in a dictionary
+    # Using list comprehensions to remove all the dictionary values that are the same. And store the remaining keys and values in a dictionary
     newDict = {k:v for k,v in aDict.items() if aDict.values().count(v)==1}
     # takes each key and stores it in a list called dict_list
     dict_list = []
